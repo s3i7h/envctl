@@ -26,6 +26,17 @@ pub struct Cmd {
     only_filled: bool,
 }
 
+pub async fn prompt(text: String) -> Result<String> {
+    eprint!("{}: ", text);
+    io::stderr().flush()?;
+    let mut line = String::new();
+    io::stdin().read_line(&mut line)?;
+    while line.chars().last().map(|c| c.is_whitespace()) == Some(true) {
+        line.pop();
+    }
+    Ok(line)
+}
+
 impl Cmd {
     pub async fn run(self: Cmd) -> Result<()> {
         let input_path = Path::new(&self.input);
@@ -65,19 +76,13 @@ impl Cmd {
                 buffer.clear();
                 continue;
             }
-            let mut prompt = format!("{}{}", buffer, key);
+            let mut prompt_text = format!("{}{}", buffer, key);
             buffer.clear();
             let default = output_env.get(&key).cloned().unwrap_or("".to_string());
             if !default.is_empty() {
-                prompt += &format!(" ({})", default);
+                prompt_text += &format!(" ({})", default);
             }
-            print!("{}: ", prompt);
-            io::stdout().flush()?;
-            let mut line = String::new();
-            io::stdin().read_line(&mut line)?;
-            while line.chars().last().map(|c| c.is_whitespace()) == Some(true) {
-                line.pop();
-            }
+            let mut line = prompt(prompt_text).await?;
             if line.is_empty() {
                 line = default;
             }
