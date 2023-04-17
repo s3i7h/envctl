@@ -45,7 +45,7 @@ $ cargo install envctl
 ```
 or for development,
 ```
-$ git clone https://github.com/yu-ichiro/envctl.git
+$ gh repo fork yu-ichiro/envctl --clone --remote
 $ cd envctl
 $ cargo install --path .
 ```
