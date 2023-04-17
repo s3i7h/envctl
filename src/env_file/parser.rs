@@ -67,7 +67,7 @@ where
     Input::Error: ParseError<Input::Token, Input::Range, Input::Position>,
 {
     sep_end_by(row(), newline())
-        .map(|result| EnvFile(result))
+        .map(EnvFile)
         .message("while parsing env_file")
 }
 

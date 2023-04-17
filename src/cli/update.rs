@@ -6,7 +6,7 @@ use clap::Parser;
 use std::io::Write;
 use crate::env_file::{EnvFile, EnvFileRow};
 
-/// Apply settings read from INPUT to OUTPUT
+/// Read settings from INPUT and update OUTPUT
 #[derive(Parser, Debug)]
 pub struct Cmd {
     /// Name of the file to load as input (default: .env.example)

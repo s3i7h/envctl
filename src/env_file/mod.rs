@@ -60,20 +60,17 @@ impl EnvFile {
         self.0.clone()
     }
 
-    pub fn apply_assign(&mut self, map: &HashMap<String, String>, r#override: bool) -> () {
+    pub fn apply_assign(&mut self, map: &HashMap<String, String>, r#override: bool) {
         let mut map = map.clone();
         for row in self.0.iter_mut() {
-            match row {
-                EnvFileRow::Declaration(declaration) => {
-                    if map.contains_key(declaration.name.as_str()) {
-                        if r#override || declaration.value.is_none() {
-                            declaration.value = map.remove(declaration.name.as_str().clone());
-                        } else {
-                            map.remove(declaration.name.as_str());
-                        }
+            if let EnvFileRow::Declaration(declaration) = row {
+                if map.contains_key(declaration.name.as_str()) {
+                    if r#override || declaration.value.is_none() {
+                        declaration.value = map.remove(declaration.name.as_str());
+                    } else {
+                        map.remove(declaration.name.as_str());
                     }
                 }
-                _ => (),
             }
         }
         if !map.is_empty() {
@@ -130,7 +127,7 @@ impl ToString for EnvFile {
             })
             .collect::<Vec<_>>()
             .join("\n");
-        while result.chars().last() == Some('\n') {
+        while result.ends_with('\n') {
             result.pop();
         }
         if !result.is_empty() {
