@@ -27,7 +27,7 @@ pub struct Cmd {
 }
 
 impl Cmd {
-    pub fn run(self: Cmd) -> Result<()> {
+    pub async fn run(self: Cmd) -> Result<()> {
         let input_path = Path::new(&self.input);
         let input = EnvFile::from_path(input_path)?;
 

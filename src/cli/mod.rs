@@ -17,9 +17,9 @@ enum Commands {
 }
 
 impl Cli {
-    pub fn run(self) -> Result<()> {
+    pub async fn run(self) -> Result<()> {
         match self.command {
-            Commands::Update(cmd) => cmd.run(),
+            Commands::Update(cmd) => cmd.run().await,
         }
     }
 }
