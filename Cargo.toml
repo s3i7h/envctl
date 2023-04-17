@@ -1,6 +1,14 @@
 [package]
 name = "envctl"
-version = "0.1.0"
+version = "1.0.0"
+authors = ["Yuichiro Luke Smith <contact@yu-smith.com>"]
+description = "Take full control over your .env environment variables"
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/yu-ichiro/envctl"
+repository = "https://github.com/yu-ichiro/envctl.git"
+keywords = ["env", "environment"]
+categories = ["command-line-utilities"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
