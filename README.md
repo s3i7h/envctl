@@ -1,6 +1,6 @@
 # envctl
 
-🚀 Take full control over your environment variables
+🚀 Take full control over your .env environment variables
 
 ## usage
 
