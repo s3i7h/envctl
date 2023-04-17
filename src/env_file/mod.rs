@@ -1,7 +1,11 @@
 use crate::env_file::parser::env_file;
 use combine::error::StringStreamError;
 use combine::Parser;
+use anyhow::Result;
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::Read;
+use std::path::Path;
 use std::str::FromStr;
 
 mod parser;
@@ -23,6 +27,13 @@ pub struct EnvDeclaration {
 }
 
 impl EnvFile {
+    pub fn from_path(path: &Path) -> Result<Self> {
+        let mut file = File::open(path)?;
+        let mut buffer = String::new();
+        file.read_to_string(&mut buffer)?;
+        Ok(Self::from_str(&buffer)?)
+    }
+
     pub fn env(&self) -> HashMap<String, String> {
         let mut map = HashMap::new();
         for (name, value) in self
