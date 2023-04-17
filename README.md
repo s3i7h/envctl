@@ -11,7 +11,7 @@ Environment Variable Control
 Usage: envctl <COMMAND>
 
 Commands:
-  update  Apply settings read from INPUT to OUTPUT
+  update  Read settings from INPUT and update OUTPUT
   help    Print this message or the help of the given subcommand(s)
 
 Options:
