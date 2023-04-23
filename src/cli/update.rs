@@ -26,15 +26,19 @@ pub struct Cmd {
     only_filled: bool,
 }
 
-pub async fn prompt(text: String) -> Result<String> {
+pub async fn prompt(text: String) -> Result<Option<String>> {
     eprint!("{}: ", text);
     io::stderr().flush()?;
     let mut line = String::new();
     io::stdin().read_line(&mut line)?;
-    while line.chars().last().map(|c| c.is_whitespace()) == Some(true) {
+    // handle explicit EOF
+    if line.is_empty() {
+        return Ok(None);
+    }
+    while line.ends_with(|c: char| c.is_whitespace()) {
         line.pop();
     }
-    Ok(line)
+    Ok(Some(line))
 }
 
 impl Cmd {
@@ -82,10 +86,14 @@ impl Cmd {
             if !default.is_empty() {
                 prompt_text += &format!(" ({})", default);
             }
-            let mut line = prompt(prompt_text).await?;
-            if line.is_empty() {
-                line = default;
-            }
+            let line = match prompt(prompt_text).await? {
+                Some(line) if !line.is_empty() => line,
+                Some(_) => default,
+                None => {
+                    eprintln!("(cleared)");
+                    "".to_string()
+                },
+            };
             output_env.insert(key, line);
         }
 
