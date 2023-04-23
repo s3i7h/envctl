@@ -1,6 +1,6 @@
 [package]
 name = "envctl"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["Yuichiro Luke Smith <contact@yu-smith.com>"]
 description = "Take full control over your .env environment variables"
 license = "Apache-2.0"
